@@ -16,6 +16,8 @@ git clone, cd, npm install.
 npm start
 ```
 
+visit [http://localhost:3000](http://localhost:3000)
+
 ## System Architecture
 <!-- _High level overview of system architecture_ -->
 Uses [Create React app](https://create-react-app.dev/)
@@ -43,4 +45,9 @@ _NA_
 
 ## Deployment
 <!-- _How to deploy the code/app into test/staging/production_ -->
-_TBC_
+
+[Create React App Deployment on Github Pages](https://create-react-app.dev/docs/deployment#github-pages-https-pagesgithubcom) 
+
+```
+npm run deploy:ghpages
+```

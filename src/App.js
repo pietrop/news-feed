@@ -61,32 +61,6 @@ class App extends React.Component {
     });
   }
 
-  // filterRssFeed = (brandValue)=>{
-  //   const rssFeedResults = this.state.feedItems.map((item) => {
-  //     if (item.brand.toLowerCase().includes(brandValue.toLowerCase())) {
-  //       item.display = true;
-
-  //       return item;
-  //     } else {
-  //       item.display = false;
-
-  //       return item;
-  //     }
-  //   });
-
-  //   this.setState({
-  //     images: rssFeedResults
-  //   });
-  // }
-
-  // handleSelectChange = selectedOption => {
-  //   console.log(`Option selected:`, selectedOption)
-  //   if(selectedOption){
-  //     this.setState({ selectedOption });
-  //     this.filterRssFeed(selectedOption[0].label);
-  //   }
-  // };
-
   render() {
     const feed = this.state.feedItems.map((item,index)=>{
       if (item.display) {
@@ -116,7 +90,6 @@ class App extends React.Component {
     return (
       <Container>
         <Card>
-        {/* <Card.Header>{this.state.feedTitle}</Card.Header> */}
         <Card.Header>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
@@ -132,19 +105,8 @@ class App extends React.Component {
             />
           </InputGroup>
         </Card.Header>
-        {/* <Card.Header>
-            <Select
-            isClearable
-            isMulti
-            value={this.state.selectedOption? this.state.selectedOption : '' }
-            onChange={this.handleSelectChange}
-            options={this.state.options}
-          />
-        </Card.Header> */}
         <ListGroup variant="flush" style={{ height: '90vh',overflow: 'auto'}}>
-        {/* <ListGroup> */}
         {feed}
-        {/* </ListGroup> */}
         </ListGroup>
         </Card>
       </Container>

@@ -2,6 +2,7 @@
   "name": "rss-reader",
   "version": "0.1.0",
   "private": true,
+  "homepage":"http://pietropassarelli.com/news-feed",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.22",
     "@fortawesome/free-solid-svg-icons": "^5.10.2",
