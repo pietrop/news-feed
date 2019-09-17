@@ -9,100 +9,33 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
-import Button from 'react-bootstrap/Button';
-import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSearch,
 } from '@fortawesome/free-solid-svg-icons';
 
-let Parser = require('rss-parser');
-// longer list of feeds
-// https://blog.feedspot.com/uk_news_rss_feeds/
-const VOX_RSS = 'https://vox.com/rss/index.xml';
-const BBC_RSS = 'http://feeds.bbci.co.uk/news/rss.xml';
-const BBC_TECHNOLOGY_RSS = 'http://feeds.bbci.co.uk/news/video_and_audio/technology/rss.xml'
-const BBC_SCIENCE_AND_ENVIROMENT_RSS = 'http://feeds.bbci.co.uk/news/video_and_audio/science_and_environment/rss.xml';
-const GUARDIAN_WORLD_RSS ='https://www.theguardian.com/world/rss';
-const GUARDIAN_TOP_RSS = 'https://www.theguardian.com/uk/rss';
-const WSJ_WORLD_RSS= 'https://feeds.a.dj.com/rss/RSSWorldNews.xml';
-const WSJ_TECHNOLOGY_RSS = 'https://feeds.a.dj.com/rss/RSSWSJD.xml';
-const NEWS_UK_RSS = 'https://www.news.co.uk/feed';
-const BUZZFEED_US_NEWS_RSS = 'https://www.buzzfeed.com/usnews.xml';
-const QUARTZ_RSS = 'https://qz.com/re/rss';
-
-const RSS_FEEDS = [
-  { 
-    value: VOX_RSS, 
-    label: 'Vox'
-  }, 
-  { 
-    value: BBC_RSS, 
-    label: 'BBC'
-  },
-  { 
-    value: BBC_TECHNOLOGY_RSS, 
-    label: 'BBC - Technology'
-  },
-  { 
-    value: BBC_SCIENCE_AND_ENVIROMENT_RSS, 
-    label: 'BBC - Science And Enviroment'
-  },
-  { 
-    value: GUARDIAN_WORLD_RSS, 
-    label: 'Guardian - World'
-  },
-  { 
-    value: GUARDIAN_TOP_RSS, 
-    label: 'Guardian - Top'
-  },
-  {
-    value: WSJ_WORLD_RSS,
-    label: 'WSJ - World'
-  },
-  {
-    value: WSJ_TECHNOLOGY_RSS,
-    label: 'WSJ - Technology'
-  },
-  {
-    value: NEWS_UK_RSS,
-    label: 'News - UK'
-  },
-  {
-    value: BUZZFEED_US_NEWS_RSS,
-    label: 'Buzz Feed - US News'
-  },
-  {
-    value: QUARTZ_RSS,
-    label: 'Quartz'
-  }
-]
-
-let parser = new Parser();
-const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
+const getDataFromFeed = require('./load-data/index.js');
+const RSS_FEEDS = require('./load-data/RSS_FEEDS.js');
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      feedItems: [],
-      options: RSS_FEEDS
+      feedItems: []
      };
   }
 
   async componentDidMount(){
-    RSS_FEEDS.forEach( async (rssFeed)=>{
-      let feed = await parser.parseURL(CORS_PROXY + rssFeed.value);
-      const { feedItems } = this.state;
-      const newFeedItems = feed.items.map((item)=>{ item.display = true; item.brand = feed.title; return item;});
-      const updatedFeedItems = feedItems.concat(newFeedItems);
-      this.setState({
-        feedItems: updatedFeedItems, 
-        feedTitle: feed.title
+    const self = this;
+    const rssFeedData = Promise.resolve(getDataFromFeed(RSS_FEEDS));
+    rssFeedData.then(function(data) {
+      self.setState({
+        feedItems: data, 
+        feedTitle: 'feed.title'
       })
-    })
+    }, function(e) {
+      console.error(e); 
+    });
   }
 
   handleSearch = (e)=>{
