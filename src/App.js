@@ -14,7 +14,8 @@ import {
   faSearch,
 } from '@fortawesome/free-solid-svg-icons';
 
-const getDataFromFeed = require('./load-data/index.js');
+import getDataFromFeed from './load-data/index.js';
+
 const RSS_FEEDS = require('./load-data/RSS_FEEDS.js');
 
 class App extends React.Component {

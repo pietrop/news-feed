@@ -17,7 +17,7 @@ async function asyncForEach(array, callback) {
   }
 }
 
-const getDataFromFeed = async (RSS_FEEDS) => {
+export default async function getDataFromFeed (RSS_FEEDS) {
   let result = [];
    await asyncForEach(RSS_FEEDS, async (rssFeed) => {
     try {
@@ -33,4 +33,5 @@ const getDataFromFeed = async (RSS_FEEDS) => {
   return result;
 }
 
-module.exports = getDataFromFeed;
+// module.exports = getDataFromFeed;
+
