@@ -2,14 +2,17 @@
  * async array modified From https://codeburst.io/javascript-async-await-with-foreach-b6ba62bbf404
  */
 const Parser = require('rss-parser');
-const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
+// const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+const CORS_PROXY = 'https://api.allorigins.win/get?url='; //+ encodeURIComponent(url);
 let parser = new Parser();
 
 const fetchDataFromFeed = async (rssFeedEndPoint) => {
-  return await parser.parseURL(CORS_PROXY + rssFeedEndPoint);
+  const feed = await parser.parseURL(CORS_PROXY + encodeURIComponent(rssFeedEndPoint));
+  console.log(feed);
+  return feed;
+
   // return await parser.parseURL(rssFeedEndPoint);
 };
-
 
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
@@ -17,16 +20,19 @@ async function asyncForEach(array, callback) {
   }
 }
 
-export default async function getDataFromFeed (RSS_FEEDS) {
+export default async function getDataFromFeed(RSS_FEEDS) {
   let result = [];
-   await asyncForEach(RSS_FEEDS, async (rssFeed) => {
+  await asyncForEach(RSS_FEEDS, async (rssFeed) => {
     try {
       let feed = await fetchDataFromFeed(rssFeed.value);
-      const newFeedItems = await feed.items.map((item)=>{ item.display = true; item.brand = feed.title; return item;});
+      const newFeedItems = await feed.items.map((item) => {
+        item.display = true;
+        item.brand = feed.title;
+        return item;
+      });
       result = result.concat(newFeedItems);
-    }
-    catch (e){
-      console.log(`error for ${rssFeed.value}::`, e)
+    } catch (e) {
+      console.log(`error for ${rssFeed.value}::`, e);
     }
   });
   // console.log('Done', result);
@@ -34,4 +40,3 @@ export default async function getDataFromFeed (RSS_FEEDS) {
 }
 
 // module.exports = getDataFromFeed;
-
